@@ -72,6 +72,9 @@ function makeSubtraction(n){
 
 function makeDivision(n){
     var m = getRandomInt(1, Math.floor(9/n));
+    if (m == 1){
+        return [n]; // Don't allow unnecessary 1s, they make it too easy
+    }
     return [m * n, m];
 }
 
@@ -86,7 +89,10 @@ function makeMultiplication(n){
         }
     }
     var m = divisibles[Math.floor(Math.random() * divisibles.length)];
-    return [n/m, m];
+    if (m == 1){
+        return [n]; // Don't allow unnecessary 1s, they make it too easy
+    }
+    return [n/m, m]; // Allow *some* ones
 }
 
 function processOneNumber(number){
