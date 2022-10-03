@@ -38,10 +38,18 @@ window.onload = function(){
     };
 
     document.getElementById("math-mul").onFieldsFilled = (values) => {
-        var mulled = values[0] * values[1];
-        if (mulled <= 9){
-            return mulled;
+        return values[0] * values[1];
+    };
+
+    document.getElementById("math-sqrt").onFieldsFilled = (values) => {
+        var rooted = Math.sqrt(values[0]);
+        if (Math.floor(rooted) == rooted){ // It's a perfect square
+            return rooted;
         }
+    };
+
+    document.getElementById("math-squ").onFieldsFilled = (values) => {
+        return values[0] * values[0];
     };
 
     genNumbers(digitCount);
@@ -66,7 +74,7 @@ function makeAddition(n){
 }
 
 function makeSubtraction(n){
-    var m = getRandomInt(0, 9 - n);
+    var m = getRandomInt(0, n);
     return [m, n + m];
 }
 
@@ -76,6 +84,13 @@ function makeDivision(n){
         return [n]; // Don't allow unnecessary 1s, they make it too easy
     }
     return [m * n, m];
+}
+
+function makeSqrt(n){
+    if (n * n > 256){
+        return [n];
+    }
+    return [n * n];
 }
 
 function makeMultiplication(n){
@@ -97,17 +112,20 @@ function makeMultiplication(n){
 
 function processOneNumber(number){
     var choice = Math.random();
-    if (choice < 0.2){
+    if (choice < 0.16){
         return makeAddition(number);
     }
-    else if (choice < 0.4){
+    else if (choice < 0.32){
         return makeSubtraction(number);
     }
-    else if (choice < 0.6){
+    else if (choice < 0.48){
         return makeDivision(number);
     }
-    else if (choice < 0.8){
+    else if (choice < 0.64){
         return makeMultiplication(number);
+    }
+    else if (choice < 0.8){
+        return makeSqrt(number);
     }
     return [number];
 }
@@ -115,9 +133,6 @@ function processOneNumber(number){
 function extrapolateFrom(nums, length){
     var ret = [];
     nums.forEach((number, i) => {
-        if (ret.length == length){
-            return;
-        }
         var d = processOneNumber(number);
         if (ret.length + d.length > length){
             ret.push(number);
@@ -133,8 +148,10 @@ function genNumbers(length){ /* Known solvable algorithm */
     var m = getRandomOneNine();
     var active = [m, m];
     while (active.length < length){
+        console.log(active);
         active = extrapolateFrom(active, length);
     }
+    console.log(active);
     active.forEach((item, i) => {
         setTimeout(() => {
             newNumber(item);
