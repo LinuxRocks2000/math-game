@@ -225,3 +225,10 @@ document.body.onkeyup = function(evt){
         document.body.requestFullscreen();
     }
 };
+
+function reset(){
+    Array.from(document.getElementsByClassName("number")).forEach((item, i) => {
+        item.parentNode.removeChild(item);
+    });
+    genNumbers(digitCount - 1);
+}

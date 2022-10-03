@@ -16,7 +16,7 @@
 
 #main{
     display: grid;
-    grid-template-areas: 'math' 'numbers';
+    grid-template-areas: 'math' 'numbers' 'menu' 'level';
     width: 100vw;
     height: 100vh;
 }
@@ -83,7 +83,31 @@
 #level{
     background-color: grey;
     color: white;
-    margin: 10%;
     text-align: center;
     font-size: 3em;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 10vw;
+    margin-right: 10vw;
+}
+
+#menu{
+    text-align: center;
+    height: 100%;
+
+    grid-area: menu;
+    position: relative;
+}
+
+#menu > button{
+    top: 50%;
+    position: relative;
+    transform: translate(0, -50%);
+    border: none;
+    padding: 10px;
+    background-color: yellow;
+}
+
+#menu > button:hover{
+    background-color: orange;
 }
